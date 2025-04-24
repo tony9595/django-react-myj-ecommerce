@@ -7,7 +7,7 @@ const MainLayout = () => {
     return(
         <div className="vh-100 d-flex flex-column justify-content-between">
             <Header></Header>
-            {/* <Outlet></Outlet> */}
+            <Outlet></Outlet>
             <Footer></Footer>
         </div>
     )

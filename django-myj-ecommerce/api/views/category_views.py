@@ -248,27 +248,3 @@ from rest_framework.viewsets import ModelViewSet
 class CategoryViewSet(ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySimpleSerializer
-
-    # 검색 필터 및 정렬 필터 사용
-    filter_backends = [filters.SearchFilter]
-    search_fields = ["name"]
-
-    # 정렬 필터 사용
-    filter_backends = [filters.OrderingFilter]
-    ordering_fields = ["name"]
-
-
-    @action(detail=True, methods=["get"])
-    def products(self, request, pk=None):
-        category = self.get_object()
-        products = category.products.all()
-        data = [{"name": p.name, "price": p.price} for p in products]
-        return Response({"category": category.name, "products": data})
-    
-    # 검색 기능 추가 (쿼리 파라미터 : ?search = 과일)
-    def get_queryset(self):
-        queryset = Category.objects.all()
-        search = self.request.query_params.get("search")
-        if search:
-            queryset = queryset.filter(name__icontains=search)
-        return queryset
